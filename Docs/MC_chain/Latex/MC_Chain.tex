@@ -1,0 +1,136 @@
+\documentclass[letterpaper,12pt]{article}
+%documentclass[superscriptaddress,preprintnumbers,amsmath,amssymb,aps,11pt]{revtex4}
+%\usepackage[]{authblk}
+%\usepackage{graphics}
+\usepackage[dvipdf]{graphics}
+%\usepackage{subfig}  % For subfloats
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{epsfig}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage{caption}
+%\usepackage{subcaption}
+\usepackage{subfig}
+\usepackage{authblk}
+\usepackage{url}
+
+\oddsidemargin = -14mm
+\topmargin = -2.9cm6666
+\textwidth = 19cm
+\textheight = 24cm
+
+\def \rarr {\rightarrow}
+\def \grinp {\includegraphics}
+\def \tw {\textwidth}
+\def\dfrac#1#2{\displaystyle{{#1}\over{#2}}}
+\def \dstl {\displaystyle}
+\definecolor{GREEN}{rgb}{0.,0.8,0}
+\definecolor{RED}{rgb}{1,0,0}
+\definecolor{ORANGE}{rgb}{1,0.5,0}
+
+\title{MC simulations}
+
+\begin{document}
+ 
+ This document describes steps, that are used in the Monte Carlo (MC) simulation chain for the TCS and J/$\psi$ analysis.
+ The whole MC chain consist of multiple steps: \newline Generation of events (output is hbook file) $\rarr$ hbook2root  $\rarr$ Convert to LUND $\rarr$ GEMC $\rarr$ Decoding $\rarr$ Reconstruction $\rarr$
+ Conversion to Root.
+  
+ \section{GRAPE Event Generator} 
+ Events were generated through the event generator called GRAPE ``GRAce-based Monte-Carlo event generator for Proton-Electron collisions'' \cite{GRAPE}.
+ This generator has a possibility to generate DIS, quasi-elastic and elastic production of lepton pairs. In our case we are interested in the elastic scattering
+ $ep \rarr l^{-}l^{+}p$ where ($l = , e^{\pm},\mu^{\pm}, \tau^{\pm}$). In the case of $e^{-}e^{+}$ pairs, it has possibility to turn on the interference between
+ the beam scattered electron and the electron from the lepton pair. The elastic lepton pair production $ep \rarr l^{-}l^{+}p$ is generated using only Bethe-Heitler (BH) diagrams.
+ These events will help to understand the acceptance of the CLAS12 detector for the $e^{-}e^{+}p (e^{-})$ final state. In the extraction of angular asymmetries of lepton pairs,
+ it is important to have a good understand of the BH process ({\color{Red} Add a reference to a doc for extraction of asymmetries.}).
+ \section{Cuts and flags}\label {sec:cuts_flags}
+ The conditions of generation is set by the user in the file named ``grape.cards''.
+ Detailed descriptions of all flags and variables are shown in \cite{GRAPE}, however below is shown the description of some cuts/flags
+ from the grape.cards that is relevant for the E12-12-001 experiment.
+ 
+ \begin{itemize}
+  \item EBEAM   $\rarr$   $\mathrm{10600\; MeV}$  //Lepton beam energy
+  \item PROCESS	$\rarr$	1 // 1 = elastic process at the proton vertex
+  \item LPAIR	$\rarr$	1 // 1 = final state leptons are $e^{-}$ and $e^{+}$. Could be ($\mu^{-},\mu^{+}$) and ($\tau^{-},\tau^{+}$).
+  \item ISR 	$\rarr$ 1 // 1 = Initiall state radiation flag is on .
+  \item GRASEL  $\rarr$ 2 // 2 = BH proces diagrams are included, including the interference between two electrons in the final state.
+  \item Q2RNGME $\rarr$ $0$, $10$ // $Q^{2}$ range in $\mathrm{GeV}$ units at the electron vertex after the ISR.   Effectively no cut
+  \item Q2RNGOB $\rarr$ $0$, $10$ // $Q^{2}$ range in $\mathrm{GeV}$ units at the electron vertex before the ISR.   Effectively no cut
+  \item MASELL  $\rarr$ $0$, $10^{20}$, $0.6$, $20$ // The invariant mass ranges (int units of $GeV$) of both possible $e^{-}e^{+}$ combinations, 1st two numbers show range for $M^{(1)}(e^{-}e^{+})$ and 2nd two numbers
+  show the range for the $M^{(2)}(e^{-}e^{+})$. $M^{(1)}(e^{-}e^{+})$ and $M^{(2)}(e^{-}e^{+})$ satisfy $M^{(1)}(e^{-}e^{+}) < M^{(1)}(e^{-}e^{+})$
+  \item Q2P	$\rarr$ $0.01$, $7$ // -$t$ in the units of $\mathrm{GeV}$.
+ \end{itemize}
+
+ In addition to above cuts, user can put cuts on all individual final state particle's angles and moment.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% T A B L E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \begin{table}[!htb]
+ \centering
+ \begin{tabular}{|c|c|c|c|c|}
+ \hline
+		& proton & 1st $e^{-}$ 	& $e^{+}$ & 2nd $e^{-}$ \\ \hline
+  THMIN [deg]	& 60	 & 120		& 120	  & 120		\\ \hline
+  THMAX [deg]	& 180	 & 180		& 175	  & 180		\\ \hline
+  PMIN  [GeV]	& 0	 & 0		& 1	  & 0 		\\ \hline
+  PMAX  [GeV]	& 11	 & 11		& 11	  & 11 		\\ \hline
+ \end{tabular}
+\caption{Angular and moomentum cuts for final state particles.}
+  \label{tb:mom_angle_cuts}
+ \end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% T A B L E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ These values are shown in Table \ref{tb:mom_angle_cuts}.
+ 
+ Some of above mentioned cuts might need some clarification.
+ 
+ ``\textbf{Q2RNGME}'' Effectively no cut is placed on variable ``Q2RNGME'', since we are interested here for quasi-real photoproduction $Q^{2} \sim 0$, we haven't placed any cut on the lower bound,
+ and since the cross section drops sharply at high $Q^{2}$ values, only very few events will have high $Q^{2}$, which will not add up significantly on the processing time or data volume. 
+ 
+ ``\textbf{MASELL}'' We don't want the to generate invariant mass of $e^{-}e^{+}$ pairs too low, because the the cross-section is very high at low masses, that would
+ result most of generated events be unusable, but from another point of view we would like to study the background under at least under $\phi(1020)$ and $\omega(782)$. Because
+ of this it was chosen to use the value $0.6\; \mathrm{GeV}$. Also as we don't know, which electron is the one from pair, we put cut only on the $M^{(2)}(e^{-}e^{+})$ (higher one),
+ to be more than  $0.6\; \mathrm{GeV}$.
+ 
+ ``\textbf{Q2P}'' Here also the cross section sharply rises up by going to small $-t$, and $0.01\;\mathrm{GeV^{2}}$ is the minimum $-t$ value for producing lepton pair with mass $0.6\; \mathrm{GeV}$.
+ 
+ ``\textbf{Momentum and angular cuts}'' In GRAPE, the positive axis is defined as the proton's momentum direction. Because of this the $0$ angle scattering is actually $180^{\circ}$
+ in GRAPE, therefore we have generated with cuts shown in the table, and then all final state particles are rotated by $180^{\circ}$ around the ``Y'' axis.
+ The minimum momentum for positrons is $1\; \mathrm{GeV}$, because below that value the CLAS12 acceptance is close to 0., similarly the minimum scattering angle is $175^{\circ}$ ($5^{\circ}$ in Hall-B system).
+ Because of interference term between final state electrons, we didn't put any cut on final state electron momentum, and also no cut placed on minimum scattering angle.
+ 
+ \section{Generation and post-generator cuts}
+ 
+ As soon cuts and flags are determined by the user, before generating events, one should run the step called ``integ''. At this step grape calculates the total cross section overt that phase space.
+ Depending on cuts this step might take long time, e.g. 10 hours. After this we can generate events.
+ The output is produced in a for of hbook files. There are two ntuples inside the hbook, ``h1'' and ``h11''. h1 contains 4 momenta of intial and final state particles, and
+ h11 has only one entry, and it has the total integrated cross section over the phase space that was specified by the cuts in ``grape.cards''
+ 
+ As it described in section \ref{sec:cuts_flags} for electron no minimum angle or momentum cut is specified. This means that It is possible to have have two electrons,
+ both being out of CLAS12 acceptance. These events are not useful for TCS and $J/\psi$ analysis, and therefore during the conversion of Hbook files to LUND format, and additional
+ cut is placed, which is to require the event to have at least one electron witm $P> 1\; \mathrm{GeV}$ and $\theta > 5^{\circ}$.
+ 
+ Next steps are standard: give LUND files as an input to GEMC, then do decoding on the GEMC output, then do reconstruction on decoding output, and finally
+ output of reconstruction is converted to Root.
+ 
+ Different steps of the simulation chain are performed in different places. In particular GRAPE works with old version of LINUX and used outdated CERNLIB libraries, and because of this 
+ Zhiwen, setup a Virtual Machine (VM) with old RedHat Linux version with working GRAPE \cite{GRAPE_Zhiwen}. The VM is installed in my local laptop, this step is fast within 1 hour about
+ 15M grape events were generated. Hbook files were transferred to JLab, and converted to Root at JLab. Then Root files were transferred to University of New Hampshire (UNH) computers,
+ where all the remaining steps of the simulation chain are performed.
+ 
+ \section{Normalization}
+ 
+ In order to estimate the number of events in the specific phase space of the CLAS12 detector with a given Luminosity $L$. One should use the following formula
+ \begin{equation}
+  N_{exp} = \frac{\displaystyle \sigma_{Tot}\cdot L\cdot N(\mathrm{recon})}{N_{0}}.
+ \end{equation}
+
+ Here, $\sigma_{Tot}$ is the total cross section in the phase space defined by above cuts, $N\mathrm{recon}$ is the number of reconstructed events in a given bin/phase space, $N_{0}$ is the total generated events by grape.
+ As an example, let say we use 15 GRAPE generated files, that all are passed through the whole simulation chain. Each files has 500000 generated events,
+ then $N_{0}$ will be $50000\times 15$.
+ 
+ \begin{thebibliography}{50}
+  \bibitem{GRAPE} \url{http://research.kek.jp/people/tabe/grape/}, \url{https://arxiv.org/abs/hep-ph/0012029}
+  \bibitem{GRAPE_Zhiwen} \url{https://jlabsvn.jlab.org/svnroot/solid/evgen/BH/readme}
+ \end{thebibliography}
+
+ 
+\end{document}
