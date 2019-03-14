@@ -13,6 +13,7 @@
 %\usepackage{subcaption}
 \usepackage{subfig}
 \usepackage{authblk}
+\usepackage{hyperref}
 \usepackage{url}
 
 \oddsidemargin = -14mm
@@ -30,18 +31,53 @@
 \definecolor{ORANGE}{rgb}{1,0.5,0}
 
 \title{Path towards the extraction of the scattering amplitude through angular asymmetries in TCS}
+\author{Rafayel Paremuzyan}
 
 \begin{document}
  
  \maketitle
  
- This document describes proposed steps towards the extraction of the real part of the helicity conserving scattering amplitude $\tilde{M}^{--}$ (look \cite{Berger:2001xd} for details) for the Timelike Compton scattering (TCS) process.
+ This document describes proposed steps towards the extraction of the real part of the helicity conserving scattering amplitude $\tilde{M}^{--}$ (look \cite{Berger:2001xd} for details) for the Timelike Compton scattering (TCS) process. Discussions in this note are based on studies which are presented in a workshop at Bochum in Feb 2014 \cite{Bochum_TCS}. At the time of this studies the CLAS12 reconstruction software was not ready, and therefore acceptance and resolution effects were studied using the CLAS12 FASTMC package. It is also discussed here the selection of kinematic points assuming 120 days of beam time with $10^{35}cm^{-2}s^{-1}$ luminosity electron beam. 
+ Unfortunately all the codes and data files are lost, therefore almost all plots in this document will be snippets from above mentioned slides.
  
- 
+ \section{Accessing the scattering amplitude}
+ Experimentally TCS is accessible through $\gamma p \rarr e^{-}e^{+}p$ reaction. Main contributions to this reaction are the Bethe Heitler (BH), TCS and their interference term.
  \begin{equation}
  \sigma(\gamma p \rarr e^{-}e^{+}p) = \sigma_{TCS} + \sigma_{BH} + \sigma_{Int}
  \end{equation}
+As discussed in \cite{Berger:2001xd}, the TCS cross-section is very small (Fig. 10 of \cite{Berger:2001xd}) wrt BH cross-section, therefore in the following discussion the TCS part will be neglected. From remaining temrs, BH is well known (calculable within 1\%-2\% precision). The interference term (eq.30 from \cite{Berger:2001xd})
+can be represented in a following way.
+\begin{equation}
+ \sigma_{Int} = a\cdot M^{--} \cdot \frac{L_{0}(\theta)}{L(\theta, \phi)} \cdot cos(\phi)
+\end{equation}
+where 
+\begin{equation}
+a = - \frac{\dstl \alpha_{em}^{3}}{\dstl 4\pi s^{2}} \dfrac{1}{-t}\dfrac{M}{Q^{\prime}}
+\dfrac{1}{\tau\sqrt{1-\tau}}\dfrac{1 + cos^{2}(\theta)}{sin(\theta)}
+\end{equation}
 
+ 
+As in the paper \cite{Berger:2001xd}, here too, we will use the weighted cross section,
+$\dfrac{dS}{dQ^{\prime 2} dt d\phi}$ which is obtained from the differential cross section $\dfrac{d\sigma}{dQ^{\prime 2}dt d(cos(\theta))d\phi}$ by multiplying $\dfrac{L}{L_{0}}$ and integrating over $\theta$ from $\pi/4$ to $3\pi/4$. The main reason for not integrating over the whole $\theta$ range ($0$ to $\pi$) is because BH highly dominates over the interference term at $\theta \sim 0^{\circ}$ and $\theta \sim 180^{\circ}$ (the $\dfrac{\sigma_{BH}}{\sigma_{int}}\sim \dfrac{1}{\sin(\theta)}$), however exact values of integration limits is subject to studies, and it should be studied to choose limits that will minimize uncertainties on the extracted scattering amplitude $M^{--}$.
+ 
+ The weighted cross section has the following shape
+ \begin{equation}
+  \dfrac{dS_{Tot}}{dQ^{\prime 2} dt d\phi} = \int_{\pi/4}^{3\pi/4}d\theta \dfrac{d\sigma}{dQ^{\prime 2}dt d(cos(\theta))d\phi} = S_{\mathrm{BH}} + S_{Int} = S_{BH} + A\cdot M^{--}\cdot cos(\phi)
+ \end{equation}
+ Here $A = \dstl \int_{\pi/4}^{3\pi/4}d\theta\cdot a = - \frac{\dstl \alpha_{em}^{3}}{\dstl 4\pi s^{2}} \dfrac{1}{-t}\dfrac{M}{Q^{\prime}}
+\dfrac{1}{\tau\sqrt{1-\tau}} \Biggr|_{\pi/4}^{3\pi/4} \left[ 2\cdot log(\tan(\theta/2)) + cos(\theta)\right]$
+
+ Now, if one subtracts the weighted BH cross section from the total weighted cross section, then the result will be the weighted interference term which has a cosine dependence on the angle $\phi$.
+ With this proposed method we should divide the $\phi\in(0. - 2\pi)$ range into $N_{\phi}$ bins ($N_{\phi}$ to be determined), and for each $\phi$ bin subtract calculated weighted BH cross section from the measured total weighted cross section. The resulting distribution should have a cosine dependence on the angle $\phi$, moreover the amplitude of the modulation is proportional to the scattering amplitude $M^{--}$.
+
+\begin{figure}[!htb]
+ \centering
+ \grinp[width=0.55\tw]{img/An_Example_cos_fit.png}
+\end{figure}
+
+ 
+ \section{Extrapolating the interference term outside the acceptance region}
+ 
  
  \begin{thebibliography}{100}
   \bibitem{Berger:2001xd} 
@@ -52,7 +88,12 @@
   [hep-ph/0110062].
   %%CITATION = doi:10.1007/s100520200917;%%
   %111 citations counted in INSPIRE as of 27 Feb 2019
+  
+   \bibitem{Bochum_TCS} 
+ Slides presented at thw workshop ``Deeply Virtual Compton Scattering: From Observables to GPDs'' 
+ \href{http://www.tp2.rub.de/forschung/vortraege-und-workshops/dvcs2014/program/downloads/paremuzyan.pdf}{http://www.tp2.rub.de/forschung/vortraege-und-workshops/dvcs2014/program/downloads/paremuzyan.pdf}
+ 
+
  \end{thebibliography}
 
- 
 \end{document}
