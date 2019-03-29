@@ -31,14 +31,14 @@
 \definecolor{ORANGE}{rgb}{1,0.5,0}
 
 \title{Path towards the extraction of the scattering amplitude through angular asymmetries in TCS}
-\author{Rafayel Paremuzyan}
+\author{Rafayel Paremuzyan and Stepan Stepanyan}
 
 \begin{document}
  
  \maketitle
  
- This document describes proposed steps towards the extraction of the real part of the helicity conserving scattering amplitude $\tilde{M}^{--}$ (look \cite{Berger:2001xd} for details) for the Timelike Compton scattering (TCS) process. Discussions in this note are based on studies which are presented in a workshop at Bochum in Feb 2014 \cite{Bochum_TCS}. At the time of this studies the CLAS12 reconstruction software was not ready, and therefore acceptance and resolution effects were studied using the CLAS12 FASTMC package. It is also discussed here the selection of kinematic points assuming 120 days of beam time with $10^{35}cm^{-2}s^{-1}$ luminosity electron beam. 
- Unfortunately all the codes and data files are lost, therefore almost all plots in this document will be snippets from above mentioned slides.
+ This document describes proposed steps towards the extraction of the real part of the helicity conserving scattering amplitude $Re\tilde{M}^{--}$ (look \cite{Berger:2001xd} for details) for the Timelike Compton scattering (TCS) process. Discussions in this note are based on studies which are presented in a workshop at Bochum in Feb 2014 \cite{Bochum_TCS}. At the time of this studies the CLAS12 reconstruction software was not ready, and therefore acceptance and resolution effects were studied using the CLAS12 FASTMC package. It is also discussed here the selection of kinematic points assuming 120 days of beam time with $10^{35}cm^{-2}s^{-1}$ luminosity electron beam. 
+ Unfortunately all the codes and data files are lost, therefore almost all plots in this document will be snippets from above mentioned slides \cite{Bochum_TCS}.
  
  \section{Accessing the scattering amplitude}
  Experimentally TCS is accessible through $\gamma p \rarr e^{-}e^{+}p$ reaction. Main contributions to this reaction are the Bethe Heitler (BH), TCS and their interference term.
@@ -57,26 +57,92 @@ a = - \frac{\dstl \alpha_{em}^{3}}{\dstl 4\pi s^{2}} \dfrac{1}{-t}\dfrac{M}{Q^{\
 \end{equation}
 
  
-As in the paper \cite{Berger:2001xd}, here too, we will use the weighted cross section,
+As in the paper \cite{Berger:2001xd}, here too, we will use the weighted cross section (WCRS),
 $\dfrac{dS}{dQ^{\prime 2} dt d\phi}$ which is obtained from the differential cross section $\dfrac{d\sigma}{dQ^{\prime 2}dt d(cos(\theta))d\phi}$ by multiplying $\dfrac{L}{L_{0}}$ and integrating over $\theta$ from $\pi/4$ to $3\pi/4$. The main reason for not integrating over the whole $\theta$ range ($0$ to $\pi$) is because BH highly dominates over the interference term at $\theta \sim 0^{\circ}$ and $\theta \sim 180^{\circ}$ (the $\dfrac{\sigma_{BH}}{\sigma_{int}}\sim \dfrac{1}{\sin(\theta)}$), however exact values of integration limits is subject to studies, and it should be studied to choose limits that will minimize uncertainties on the extracted scattering amplitude $M^{--}$.
  
- The weighted cross section has the following shape
+ The WCRS has the following shape
  \begin{equation}
-  \dfrac{dS_{Tot}}{dQ^{\prime 2} dt d\phi} = \int_{\pi/4}^{3\pi/4}d\theta \dfrac{d\sigma}{dQ^{\prime 2}dt d(cos(\theta))d\phi} = S_{\mathrm{BH}} + S_{Int} = S_{BH} + A\cdot M^{--}\cdot cos(\phi)
+  \dfrac{dS_{Tot}}{dQ^{\prime 2} dt d\phi} = \int_{\pi/4}^{3\pi/4}d\theta \dfrac{d\sigma}{dQ^{\prime 2}dt d(cos(\theta))d\phi} = S_{\mathrm{BH}} + S_{Int} = S_{BH} + A\cdot Re M^{--}\cdot cos(\phi)
+  \label{eq:weighted_crs}
  \end{equation}
  Here $A = \dstl \int_{\pi/4}^{3\pi/4}d\theta\cdot a = - \frac{\dstl \alpha_{em}^{3}}{\dstl 4\pi s^{2}} \dfrac{1}{-t}\dfrac{M}{Q^{\prime}}
-\dfrac{1}{\tau\sqrt{1-\tau}} \Biggr|_{\pi/4}^{3\pi/4} \left[ 2\cdot log(\tan(\theta/2)) + cos(\theta)\right]$
+\dfrac{1}{\tau\sqrt{1-\tau}} \int_{\pi/4}^{3\pi/4}(1 + cos^{2}(\theta))d\theta$
 
  Now, if one subtracts the weighted BH cross section from the total weighted cross section, then the result will be the weighted interference term which has a cosine dependence on the angle $\phi$.
- With this proposed method we should divide the $\phi\in(0. - 2\pi)$ range into $N_{\phi}$ bins ($N_{\phi}$ to be determined), and for each $\phi$ bin subtract calculated weighted BH cross section from the measured total weighted cross section. The resulting distribution should have a cosine dependence on the angle $\phi$, moreover the amplitude of the modulation is proportional to the scattering amplitude $M^{--}$.
+ With this proposed method we should divide the $\phi\in(0. - 2\pi)$ range into $N_{\phi}$ bins ($N_{\phi}$ to be determined), and for each $\phi$ bin subtract calculated weighted BH cross section from the measured total weighted cross section. The resulting distribution should have a cosine dependence on the angle $\phi$, moreover the amplitude of the modulation is proportional to the scattering amplitude $M^{--}$. In order to extract the $M^{--}$, this distribution should be fitted with a function
+ \begin{equation}
+    f = P\cdot cos(\phi)
+ \end{equation}
 
+ As an example the plot in Fig.\ref{fig:cos_phi_fit_illustration} is an illustration of a similar fit. Points in the plot
+ are not real data points, but they were generated using a Gaussian function with the mean equal to the weighted cross section in a given kinematic bin ($t$, $Q^{\prime 2}$, $\phi$), and sigma equal to the statistical uncertainty (estimated using CLAS12 FASTMC) of the cross section in the given bin.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!htb]
  \centering
- \grinp[width=0.55\tw]{img/An_Example_cos_fit.png}
+ \grinp[width=0.55\tw]{img/An_Example_cos_fit_withtitles.png}
+ \caption{ Illustration plot: The $\phi$ angular dependence of the weighted interference term cross section is fitted with cosine function. }
+ \label{fig:cos_phi_fit_illustration}
 \end{figure}
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ As soon the parameter $P$ will be extracted from the fit, one then can calculate the real part of $M^{--}$
+ \begin{equation}
+  ReM^{--} = -\frac{\dstl P}{\dstl \frac{\dstl \alpha_{em}^{3}}{\dstl4\pi s^{2}} \cdot \frac{1}{-t}\frac{M}{Q^{\prime}}\frac{1}{\tau\sqrt{1-\tau}}\int_{\pi/4}^{3\pi/4}(1 + cos^{2}(\theta))d\theta }
+ \end{equation}
 
+ \section{The Effect of the CLAS(12) acceptance and the extrapolation}
+ It is important to mention that in the above described method method, integration limits over $\theta$, should not be changed for different $\phi$ bins. Varying integration limits, the $\phi$ dependence of the weighted cross section will not have a cosine shape anymore.
  
- \section{Extrapolating the interference term outside the acceptance region}
+ The CLAS and CLAS12 detector acceptances have strong $\theta$ and $\phi$ depence.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htb]
+ \centering
+ \grinp[width=0.75\tw]{img/Clas12_Acc.png}
+ \caption{ CLAS12 acceptance obtained in different $-t$ bins. Acceptance are calculated
+ through CLAS12 FASTMC package.}
+ \label{fig:CLAS12_th_phi_acc}
+\end{figure}
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ As an example in Fig.\ref{fig:CLAS12_th_phi_acc} shown CLAS12 acceptance obtained in different $t$ bins. One can see that the CLAS12 acceptance doesn't cover the full $\theta$ range, and moreover, the $\theta$ range varies a lot as a function of the angle $\phi$. This means that if in the data we integrate over $\theta$ in the available $\theta$ range, then the resulting distribution will not have a cosine depence on the angle $\phi$. 
+ 
+ Now let's look into the equation (\ref{eq:weighted_crs}). It shows that the WCRS of
+ interference term has as $1 + cos^{2}(\theta)$ dependence on the angle $\theta$ for any angle $\phi$, and if one measures the WCRS in a given range $\theta \in (a,b)$, $^{b}_{a}S$, then one can uniqly calculate the WCRS in any $\theta\in(A, B)$ range.
+ 
+ \begin{equation}
+  \displaystyle ^B_{A}S_{Int} = ^b_{a}S_{Int} \frac{\displaystyle \int_{A}^{B}(1 + cos^{2}(\theta))d\theta}{\displaystyle  \int_{a}^{b}(1 + cos^{2}(\theta))d\theta}
+  \label{eq:extrapolation}
+ \end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htb]
+ \centering
+ \grinp[width=0.75\tw]{img/Int_Term_Th_dependence.png}
+ \caption{The interference term has a $(1 + cos^{2}(\theta))$ dependence on the angle $\theta$, for any $\phi$ bin. }
+ \label{fig:int_th_dep}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ As an illustration, in Fig.\ref{fig:int_th_dep} shown the function $(1 + cos^{2}(\theta))$ and the integral of the 'Orange' are can be extrapolated by knowing the 'blue' shaded are by using the equation (\ref{eq:extrapolation}). In our case the blue shaded area will correspond the CLAS(12) acceptance, and the orange shaded area will correspond to the $\pi/4$ to $3\pi/4$ range.
+ 
+ \section{selection of kinematic points}
+% \section{Extrapolating the interference term outside the acceptance region}
+In this section we will discuss selection of TCS kinematic points, and compare TCS phase space to the DVCS phase space which is approved for Hall-C kinematics \cite{DVCS_HallC}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htb]
+ \centering
+ \grinp[width=0.95\tw]{img/Kine1.pdf}
+ \caption{The $Q^{2}$ vs $x_{B}$ distribution for the approved Hall-C kinematics (blue, green, and red areas), and TCS kinematics with CLAS12 acceptance (pink area). }
+ \label{fig:kine1}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In TCS, The corresponding variables of $Q^{2} \equiv (p_{e}-p_{e}^{\prime})$ ans $x_{B} \equiv Q^{2}/2pq$, are $Q^{\prime 2} = M_{e^{-}e^{+}}^{2}$ and $\tau = Q^{\prime 2}/2pq$.
+In Fig.\ref{fig:kine1} shown The $Q^{2}$ vs $x_{B}$ distribution for the approved Hall-C kinematics (blue, green, and red areas), and TCS kinematics with CLAS12 acceptance (pink area). 
+
+In that plot the black solid line corresponds to the maximum achievable $Q^{2}$ for a given
+beam energy. Usually in DVCS experiments maximum $Q^{2}$ is not accessible Experimentally, since
+it requires detection of a very low momentum electron at large scattering angle, which are usually out of the acceptance, therefore as one can see DVCS kinematic coverage doesn't reach to the maximum accessible $Q^{2}$ values. In TCS however maximum $Q^{2}$ is well inside the the acceptance region for CLAS12 detector (both leptons are high energy and have large scattering angles).
+
+In the fig.\ref{fig:kine1}, areas inside solid blue lines are proposed kinematic regions for TCS analysis.
+In particular the lowest $x_{B}$ region ($x_{B}\in(0.2 - 0.3)$) can be complementary to DVCS,
+since this $Q^{2}, x_{B}$ point is not accessible in any JLab DVCS experiments. Other points can serve as a test of universality of GPDs. I want to mention that these regions are selected in a way to have roughly equal statistics in all bins.
  
  
  \begin{thebibliography}{100}
@@ -92,6 +158,10 @@ $\dfrac{dS}{dQ^{\prime 2} dt d\phi}$ which is obtained from the differential cro
    \bibitem{Bochum_TCS} 
  Slides presented at thw workshop ``Deeply Virtual Compton Scattering: From Observables to GPDs'' 
  \href{http://www.tp2.rub.de/forschung/vortraege-und-workshops/dvcs2014/program/downloads/paremuzyan.pdf}{http://www.tp2.rub.de/forschung/vortraege-und-workshops/dvcs2014/program/downloads/paremuzyan.pdf}
+ 
+ \bibitem{DVCS_HallC}
+ DVCS Experiment proposal in Hall-C.
+ \href{https://www.jlab.org/exp\_prog/proposals/13/PR12-13-010.pdf}{https://www.jlab.org/exp\_prog/proposals/13/PR12-13-010.pdf}
  
 
  \end{thebibliography}
