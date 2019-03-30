@@ -69,7 +69,7 @@ $\dfrac{dS}{dQ^{\prime 2} dt d\phi}$ which is obtained from the differential cro
 \dfrac{1}{\tau\sqrt{1-\tau}} \int_{\pi/4}^{3\pi/4}(1 + cos^{2}(\theta))d\theta$
 
  Now, if one subtracts the weighted BH cross section from the total weighted cross section, then the result will be the weighted interference term which has a cosine dependence on the angle $\phi$.
- With this proposed method we should divide the $\phi\in(0. - 2\pi)$ range into $N_{\phi}$ bins ($N_{\phi}$ to be determined), and for each $\phi$ bin subtract calculated weighted BH cross section from the measured total weighted cross section. The resulting distribution should have a cosine dependence on the angle $\phi$, moreover the amplitude of the modulation is proportional to the scattering amplitude $M^{--}$. In order to extract the $M^{--}$, this distribution should be fitted with a function
+ With this proposed method we should divide the $\phi\in(0. - 2\pi)$ range into $N_{\phi}$ bins ($N_{\phi}$ to be determined), and for each $\phi$ bin subtract calculated weighted BH cross section from the measured total weighted cross section. The resulting distribution should have a cosine dependence on the angle $\phi$, moreover the amplitude of the modulation is proportional to the scattering amplitude $ReM^{--}$. In order to extract the $ReM^{--}$, this distribution should be fitted with a function
  \begin{equation}
     f = P\cdot cos(\phi)
  \end{equation}
@@ -87,8 +87,23 @@ $\dfrac{dS}{dQ^{\prime 2} dt d\phi}$ which is obtained from the differential cro
  As soon the parameter $P$ will be extracted from the fit, one then can calculate the real part of $M^{--}$
  \begin{equation}
   ReM^{--} = -\frac{\dstl P}{\dstl \frac{\dstl \alpha_{em}^{3}}{\dstl4\pi s^{2}} \cdot \frac{1}{-t}\frac{M}{Q^{\prime}}\frac{1}{\tau\sqrt{1-\tau}}\int_{\pi/4}^{3\pi/4}(1 + cos^{2}(\theta))d\theta }
+  \label{eq:Re_M--}
  \end{equation}
+ \subsection{estimation of statistical uncertainties}
+The statistical uncertainty on the $ReM^{--}$ can be obtained in a following way.
+Let's assume the final distribution of the interference term WCRS is the one depicted on Fig.\ref{fig:cos_phi_fit_illustration}. Using this distribution as a source, we will generate a big number (e.g. 10000 or more) of similar distributions, in a way that a WCRS in a given $\phi$ bin will be Gaussian random number with a Mean equal to the WCRS and sigma equal to the statistical error of corresponding bin of the source distribution. Then each of generated distribution will be fitted with a cosine function in a same way as the source distribution, and each fit will yield a certain $ReM^{--}$. The distribution of $ReM^{--}$ is expected to be a Gaussian with a mean equal to the value of $ReM^{--}$ obtained from the source distribution, and the $\sigma$ of it will show the statistical uncertainties of the measured $ReM^{--}$.
+As an example the distribution in Fit.\ref{fig:cos_phi_fit_illustration} is actually one of such generated distributions, and when we generated 10000 of such distributions, and fit with a $P\cdot cos(\phi)$ function, the resulting distribution of the $P$ is shown in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htb]
+ \centering
+ \grinp[width=0.75\tw]{img/Stat_Error_of_Fit.pdf}
+ \caption{distribution of fit parameter $P$ obtained from 10000 generated distributions.}
+ \label{fig:Stat_Error_of_P}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Fig.\ref{fig:Stat_Error_of_P}. The width of this distribution will represented the statistical uncertainty of $P$ which is related to $ReM^{--}$ by eq(\ref{eq:Re_M--}).
 
+ 
  \section{The Effect of the CLAS(12) acceptance and the extrapolation}
  It is important to mention that in the above described method method, integration limits over $\theta$, should not be changed for different $\phi$ bins. Varying integration limits, the $\phi$ dependence of the weighted cross section will not have a cosine shape anymore.
  
@@ -133,16 +148,25 @@ In this section we will discuss selection of TCS kinematic points, and compare T
  \label{fig:kine1}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In TCS, The corresponding variables of $Q^{2} \equiv (p_{e}-p_{e}^{\prime})$ ans $x_{B} \equiv Q^{2}/2pq$, are $Q^{\prime 2} = M_{e^{-}e^{+}}^{2}$ and $\tau = Q^{\prime 2}/2pq$.
-In Fig.\ref{fig:kine1} shown The $Q^{2}$ vs $x_{B}$ distribution for the approved Hall-C kinematics (blue, green, and red areas), and TCS kinematics with CLAS12 acceptance (pink area). 
+In TCS, the corresponding variables of $Q^{2} \equiv (p_{e}-p_{e}^{\prime 2})$ ans $x_{B} \equiv Q^{2}/2pq$, are $Q^{\prime 2} = M_{e^{-}e^{+}}^{2}$ and $\tau = Q^{\prime 2}/2pq$.
+In Fig.\ref{fig:kine1} shown the $Q^{2}$ vs $x_{B}$ distribution for the approved Hall-C kinematics (blue, green, and red areas), and TCS kinematics with CLAS12 acceptance (pink area). 
 
 In that plot the black solid line corresponds to the maximum achievable $Q^{2}$ for a given
-beam energy. Usually in DVCS experiments maximum $Q^{2}$ is not accessible Experimentally, since
-it requires detection of a very low momentum electron at large scattering angle, which are usually out of the acceptance, therefore as one can see DVCS kinematic coverage doesn't reach to the maximum accessible $Q^{2}$ values. In TCS however maximum $Q^{2}$ is well inside the the acceptance region for CLAS12 detector (both leptons are high energy and have large scattering angles).
+beam energy. Usually in DVCS experiments maximum $Q^{2}$ is not accessible experimentally, since
+it requires detection of a very low momentum electron, which are usually out of the acceptance, therefore as one can see DVCS kinematic coverage doesn't reach to the maximum accessible $Q^{2}$ values. In TCS however maximum $Q^{2}$ is well inside the the acceptance region for CLAS12 detector (both leptons are high energy and have large scattering angles).
 
 In the fig.\ref{fig:kine1}, areas inside solid blue lines are proposed kinematic regions for TCS analysis.
 In particular the lowest $x_{B}$ region ($x_{B}\in(0.2 - 0.3)$) can be complementary to DVCS,
-since this $Q^{2}, x_{B}$ point is not accessible in any JLab DVCS experiments. Other points can serve as a test of universality of GPDs. I want to mention that these regions are selected in a way to have roughly equal statistics in all bins.
+since this $Q^{2}, x_{B}$ point is not accessible in any JLab DVCS experiments. Other points can serve as a test of universality of GPDs. I want to mention that these regions are selected in a way to have roughly equal statistics in all bins, and in total there was about 6000 expected events in each $Q^{\prime 2}, x_{B}$ bin.
+ 
+ \section{Summary and outlook}
+ It was demonstrated here that, the real part of the scattering amplitude $ReM^{--}$ can be extracted by fitting the WCRS as a function of $\phi$ angle. This is somewhat different from the calculation of the cosine moment which is proposed in paper. \cite{Berger:2001xd}. The procedure of estimation of statistical uncertainties is also discussed.
+ 
+ The CLAS(12) acceptance imposes significant $\phi$ dependent variation of $\theta$ range, however because of the known $\theta$ depence of the cross section,  we can extrapolate the cross section to a fixed range in all $\phi$ bins, however proper determination of $\theta$ range needs more studies.
+ 
+ Based on old FASTMC code and 120 days of full luminosity, this study chose 4 kinematic bins
+ in $Q^{\prime 2}, x_{B}$ phase space, and the lowest $x_{B}$ can serve as a complementary to DVCS program since it has potential to cover a phase space not accessible in DVCS experiments at JLab. However situation now is different, and in order to estimate rates more realistically these studies should be repeated with GEMC and be reconstructed with the current CLAS12 reconstruction code, and we need to use the currently available luminosity to estimate expected statistics.
+
  
  
  \begin{thebibliography}{100}
