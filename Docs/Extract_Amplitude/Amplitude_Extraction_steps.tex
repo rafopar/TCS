@@ -31,7 +31,7 @@
 \definecolor{ORANGE}{rgb}{1,0.5,0}
 
 \title{Path towards the extraction of the scattering amplitude through angular asymmetries in TCS}
-\author{Rafayel Paremuzyan and Stepan Stepanyan}
+\author{Rafayel Paremuzyan}
 
 \begin{document}
  
@@ -40,7 +40,7 @@
  This document describes proposed steps towards the extraction of the real part of the helicity conserving scattering amplitude $Re\tilde{M}^{--}$ (look \cite{Berger:2001xd} for details) for the Timelike Compton scattering (TCS) process. Discussions in this note are based on studies which are presented in a workshop at Bochum in Feb 2014 \cite{Bochum_TCS}. At the time of this studies the CLAS12 reconstruction software was not ready, and therefore acceptance and resolution effects were studied using the CLAS12 FASTMC package. It is also discussed here the selection of kinematic points assuming 120 days of beam time with $10^{35}cm^{-2}s^{-1}$ luminosity electron beam. 
  Unfortunately all the codes and data files are lost, therefore almost all plots in this document will be snippets from above mentioned slides \cite{Bochum_TCS}.
  
- \section{Accessing the scattering amplitude}
+ \section{Accessing the scattering amplitude} \label{sec:Access_amplitude}
  Experimentally TCS is accessible through $\gamma p \rarr e^{-}e^{+}p$ reaction. Main contributions to this reaction are the Bethe Heitler (BH), TCS and their interference term.
  \begin{equation}
  \sigma(\gamma p \rarr e^{-}e^{+}p) = \sigma_{TCS} + \sigma_{BH} + \sigma_{Int}
@@ -55,10 +55,9 @@ where
 a = - \frac{\dstl \alpha_{em}^{3}}{\dstl 4\pi s^{2}} \dfrac{1}{-t}\dfrac{M}{Q^{\prime}}
 \dfrac{1}{\tau\sqrt{1-\tau}}\dfrac{1 + cos^{2}(\theta)}{sin(\theta)}
 \end{equation}
-
  
 As in the paper \cite{Berger:2001xd}, here too, we will use the weighted cross section (WCRS),
-$\dfrac{dS}{dQ^{\prime 2} dt d\phi}$ which is obtained from the differential cross section $\dfrac{d\sigma}{dQ^{\prime 2}dt d(cos(\theta))d\phi}$ by multiplying $\dfrac{L}{L_{0}}$ and integrating over $\theta$ from $\pi/4$ to $3\pi/4$. The main reason for not integrating over the whole $\theta$ range ($0$ to $\pi$) is because BH highly dominates over the interference term at $\theta \sim 0^{\circ}$ and $\theta \sim 180^{\circ}$ (the $\dfrac{\sigma_{BH}}{\sigma_{int}}\sim \dfrac{1}{\sin(\theta)}$), however exact values of integration limits is subject to studies, and it should be studied to choose limits that will minimize uncertainties on the extracted scattering amplitude $M^{--}$.
+$\dfrac{dS}{dQ^{\prime 2} dt d\phi}$, which is obtained from the differential cross section $\dfrac{d\sigma}{dQ^{\prime 2}dt d(cos(\theta))d\phi}$ weighted by $\dfrac{L}{L_{0}}$ and integrated over $\theta$ (in \cite{Berger:2001xd} from $\pi/4$ to $3\pi/4$). The main reason for not integrating over the whole $\theta$ range ($0$ to $\pi$) is because BH dominates over the interference term at $\theta \sim 0^{\circ}$ and $\theta \sim 180^{\circ}$ (the $\dfrac{\sigma_{BH}}{\sigma_{int}}\sim \dfrac{1}{\sin(\theta)}$). The exact values of integration limits is a subject for studies, and these limits must be chosen to minimize uncertainties on the extracted scattering amplitude $M^{--}$.
  
  The WCRS has the following shape
  \begin{equation}
@@ -89,10 +88,52 @@ $\dfrac{dS}{dQ^{\prime 2} dt d\phi}$ which is obtained from the differential cro
   ReM^{--} = -\frac{\dstl P}{\dstl \frac{\dstl \alpha_{em}^{3}}{\dstl4\pi s^{2}} \cdot \frac{1}{-t}\frac{M}{Q^{\prime}}\frac{1}{\tau\sqrt{1-\tau}}\int_{\pi/4}^{3\pi/4}(1 + cos^{2}(\theta))d\theta }
   \label{eq:Re_M--}
  \end{equation}
- \subsection{estimation of statistical uncertainties}
+
+ 
+ \section{The Effect of the CLAS(12) acceptance and the extrapolation}
+ It is important to mention that in the above described method method, integration limits over $\theta$, should not be changed for different $\phi$ bins. Varying integration limits, the $\phi$ dependence of the weighted cross section will not have a cosine shape anymore.
+ 
+ The CLAS and CLAS12 detector acceptances have strong $\theta$ and $\phi$ dependence.
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htb]
+ \centering
+ \grinp[width=0.75\tw]{img/Clas12_Acc.png}
+ \caption{ CLAS12 acceptance obtained in different $-t$ bins. Acceptance are calculated
+ through CLAS12 FASTMC package.}
+ \label{fig:CLAS12_th_phi_acc}
+\end{figure}
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ As an example in Fig.\ref{fig:CLAS12_th_phi_acc} shown CLAS12 acceptance obtained in different $t$ bins. One can see that the CLAS12 acceptance doesn't cover the full $\theta$ range, and moreover, the $\theta$ range varies a lot as a function of the angle $\phi$. This means that if in the data we integrate over $\theta$ in the available $\theta$ range, then the resulting distribution will not have a cosine dependence on the angle $\phi$. 
+ 
+ Now let's look into the equation (\ref{eq:weighted_crs}). It shows that the WCRS of
+ interference term has as $1 + cos^{2}(\theta)$ dependence on the angle $\theta$ for any angle $\phi$, and if one measures the interference term WCRS in a given range $\theta \in (a,b)$, $^{b}_{a}S_{Int}$, then one can uniquely calculate the interference term WCRS in any $\theta\in(A, B)$ range. 
+ \begin{equation}
+  \displaystyle ^B_{A}S_{Int} = ^b_{a}S_{Int} \frac{\displaystyle \int_{A}^{B}(1 + cos^{2}(\theta))d\theta}{\displaystyle  \int_{a}^{b}(1 + cos^{2}(\theta))d\theta}
+  \label{eq:extrapolation}
+ \end{equation}
+%Where $^{b}_{a}S_{Tot}$%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The interference term WCRS can be calculated by subtracting the BH WCRS from the total measured WCRS.
+\begin{equation}
+ ^{b}_{a}S_{Int} = ^{b}_{a}S_{Tot} - ^{b}_{a}S_{BH}
+ \label{eq:Int_eq_Tot_minus_BH}
+\end{equation}
+In short: the $^{b}_{a}S_{Tot}$ will be measured from the experiment, the $^{b}_{a}S_{BH}$ 
+will be calculated by integrating the analytic form the BH cross section over the $\theta\in(a-b)$, and therefore the interference term WCRS will be measured using the eq. (\ref{eq:Int_eq_Tot_minus_BH}).
+\begin{figure}[!htb]
+ \centering
+ \grinp[width=0.75\tw]{img/Int_Term_Th_dependence.png}
+ \caption{The interference term has a $(1 + cos^{2}(\theta))$ dependence on the angle $\theta$, for any $\phi$ bin. }
+ \label{fig:int_th_dep}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Then using equations \ref{eq:Int_eq_Tot_minus_BH} and \ref{eq:extrapolation}, the interference term WCRS will be calculated for any $\theta\in(a-b)$ range for any given $\phi$ bin.
+ As an illustration, in Fig.\ref{fig:int_th_dep} shown the function $(1 + cos^{2}(\theta))$ and the integral of the 'Orange' are can be extrapolated by knowing the 'blue' shaded are by using the equation (\ref{eq:extrapolation}). In our case the blue shaded area will correspond the CLAS(12) acceptance, and the orange shaded area will correspond to the $\pi/4$ to $3\pi/4$ range.
+ 
+\section{estimation of statistical uncertainties}
 The statistical uncertainty on the $ReM^{--}$ can be obtained in a following way.
-Let's assume the final distribution of the interference term WCRS is the one depicted on Fig.\ref{fig:cos_phi_fit_illustration}. Using this distribution as a source, we will generate a big number (e.g. 10000 or more) of similar distributions, in a way that a WCRS in a given $\phi$ bin will be Gaussian random number with a Mean equal to the WCRS and sigma equal to the statistical error of corresponding bin of the source distribution. Then each of generated distribution will be fitted with a cosine function in a same way as the source distribution, and each fit will yield a certain $ReM^{--}$. The distribution of $ReM^{--}$ is expected to be a Gaussian with a mean equal to the value of $ReM^{--}$ obtained from the source distribution, and the $\sigma$ of it will show the statistical uncertainties of the measured $ReM^{--}$.
-As an example the distribution in Fit.\ref{fig:cos_phi_fit_illustration} is actually one of such generated distributions, and when we generated 10000 of such distributions, and fit with a $P\cdot cos(\phi)$ function, the resulting distribution of the $P$ is shown in
+Let's assume the final distribution of the interference term WCRS is the one depicted on Fig.\ref{fig:cos_phi_fit_illustration}. Using this distribution as a source, we will generate a big number (e.g. 10000 or more) of similar distributions, in a way that a WCRS in a given $\phi$ bin will be a Gaussian random number with a Mean equal to the WCRS and sigma equal to the statistical error of corresponding bin of the source distribution. Then each of generated distribution will be fitted with a cosine function in a same way as the source distribution, and each fit will yield a certain $ReM^{--}$. The distribution of $ReM^{--}$ is expected to be a Gaussian with a mean equal to the value of $ReM^{--}$ obtained from the source distribution, and the $\sigma$ of it will show the statistical uncertainties of the measured $ReM^{--}$.
+As an example the distribution in Fig.\ref{fig:cos_phi_fit_illustration} is actually one of such generated distributions, and when we generated 10000 of such distributions, and fit with a $P\cdot cos(\phi)$ function, the resulting distribution of the $P$ is shown in
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!htb]
  \centering
@@ -103,39 +144,6 @@ As an example the distribution in Fit.\ref{fig:cos_phi_fit_illustration} is actu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Fig.\ref{fig:Stat_Error_of_P}. The width of this distribution will represented the statistical uncertainty of $P$ which is related to $ReM^{--}$ by eq(\ref{eq:Re_M--}).
 
- 
- \section{The Effect of the CLAS(12) acceptance and the extrapolation}
- It is important to mention that in the above described method method, integration limits over $\theta$, should not be changed for different $\phi$ bins. Varying integration limits, the $\phi$ dependence of the weighted cross section will not have a cosine shape anymore.
- 
- The CLAS and CLAS12 detector acceptances have strong $\theta$ and $\phi$ depence.
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[!htb]
- \centering
- \grinp[width=0.75\tw]{img/Clas12_Acc.png}
- \caption{ CLAS12 acceptance obtained in different $-t$ bins. Acceptance are calculated
- through CLAS12 FASTMC package.}
- \label{fig:CLAS12_th_phi_acc}
-\end{figure}
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- As an example in Fig.\ref{fig:CLAS12_th_phi_acc} shown CLAS12 acceptance obtained in different $t$ bins. One can see that the CLAS12 acceptance doesn't cover the full $\theta$ range, and moreover, the $\theta$ range varies a lot as a function of the angle $\phi$. This means that if in the data we integrate over $\theta$ in the available $\theta$ range, then the resulting distribution will not have a cosine depence on the angle $\phi$. 
- 
- Now let's look into the equation (\ref{eq:weighted_crs}). It shows that the WCRS of
- interference term has as $1 + cos^{2}(\theta)$ dependence on the angle $\theta$ for any angle $\phi$, and if one measures the WCRS in a given range $\theta \in (a,b)$, $^{b}_{a}S$, then one can uniqly calculate the WCRS in any $\theta\in(A, B)$ range.
- 
- \begin{equation}
-  \displaystyle ^B_{A}S_{Int} = ^b_{a}S_{Int} \frac{\displaystyle \int_{A}^{B}(1 + cos^{2}(\theta))d\theta}{\displaystyle  \int_{a}^{b}(1 + cos^{2}(\theta))d\theta}
-  \label{eq:extrapolation}
- \end{equation}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[!htb]
- \centering
- \grinp[width=0.75\tw]{img/Int_Term_Th_dependence.png}
- \caption{The interference term has a $(1 + cos^{2}(\theta))$ dependence on the angle $\theta$, for any $\phi$ bin. }
- \label{fig:int_th_dep}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- As an illustration, in Fig.\ref{fig:int_th_dep} shown the function $(1 + cos^{2}(\theta))$ and the integral of the 'Orange' are can be extrapolated by knowing the 'blue' shaded are by using the equation (\ref{eq:extrapolation}). In our case the blue shaded area will correspond the CLAS(12) acceptance, and the orange shaded area will correspond to the $\pi/4$ to $3\pi/4$ range.
  
  \section{selection of kinematic points}
 % \section{Extrapolating the interference term outside the acceptance region}
