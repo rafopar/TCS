@@ -129,10 +129,11 @@ will be calculated by integrating the analytic form the BH cross section over th
  \label{fig:int_th_dep}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Then using equations \ref{eq:Int_eq_Tot_minus_BH} and \ref{eq:extrapolation}, the interference term WCRS will be calculated for any $\theta\in(a-b)$ range for any given $\phi$ bin.
- As an illustration, in Fig.\ref{fig:int_th_dep} shown the function $(1 + cos^{2}(\theta))$ and the integral of the 'Orange' are can be extrapolated by knowing the 'blue' shaded are by using the equation (\ref{eq:extrapolation}). In our case the blue shaded area will correspond the CLAS(12) acceptance, and the orange shaded area will correspond to the $\pi/4$ to $3\pi/4$ range.
+Then using equations (\ref{eq:Int_eq_Tot_minus_BH}) and (\ref{eq:extrapolation}), the interference term WCRS will be calculated for any $\theta\in(a-b)$ range for any given $\phi$ bin.
+ As an illustration, in Fig.\ref{fig:int_th_dep} shown the function $(1 + cos^{2}(\theta))$.
+ Knowing only the integral of 'blue' shaded area, the integral of the 'Orange' area can be determined using the equation (\ref{eq:extrapolation}). In our case the blue shaded area will correspond the CLAS(12) acceptance, and the orange shaded area will correspond to the $\pi/4$ to $3\pi/4$ range.
  
-\section{estimation of statistical uncertainties}
+\section{Estimation of statistical uncertainties}
 The statistical uncertainty on the $ReM^{--}$ can be obtained in a following way.
 Let's assume the final distribution of the interference term WCRS is the one depicted on Fig.\ref{fig:cos_phi_fit_illustration}. Using this distribution as a source, we will generate a big number (e.g. 10000 or more) of similar distributions, in a way that a WCRS in a given $\phi$ bin will be a Gaussian random number with a Mean equal to the WCRS and sigma equal to the statistical error of corresponding bin of the source distribution. Then each of generated distribution will be fitted with a cosine function in a same way as the source distribution, and each fit will yield a certain $ReM^{--}$. The distribution of $ReM^{--}$ is expected to be a Gaussian with a mean equal to the value of $ReM^{--}$ obtained from the source distribution, and the $\sigma$ of it will show the statistical uncertainties of the measured $ReM^{--}$.
 As an example the distribution in Fig.\ref{fig:cos_phi_fit_illustration} is actually one of such generated distributions, and when we generated 10000 of such distributions, and fit with a $P\cdot cos(\phi)$ function, the resulting distribution of the $P$ is shown in
