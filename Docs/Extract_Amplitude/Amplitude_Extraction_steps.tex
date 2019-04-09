@@ -63,7 +63,7 @@ $\dfrac{dS}{dQ^{\prime 2} dt d\phi}$, which is obtained from the differential cr
  
  The WCRS has the following shape
  \begin{equation}
-  \dfrac{dS_{Tot}}{dQ^{\prime 2} dt d\phi} = \int_{\pi/4}^{3\pi/4}d\theta \dfrac{d\sigma}{dQ^{\prime 2}dt d(cos(\theta))d\phi} = S_{\mathrm{BH}} + S_{Int} = S_{BH} + A\cdot Re M^{--}\cdot cos(\phi)
+  \dfrac{dS_{Tot}}{dQ^{\prime 2} dt d\phi} = \int_{\pi/4}^{3\pi/4}d\theta \dfrac{d\sigma}{dQ^{\prime 2}dt d(cos(\theta))d\phi}\cdot\frac{L}{L_{0}} = S_{\mathrm{BH}} + S_{Int} = S_{BH} + A\cdot Re M^{--}\cdot cos(\phi)
   \label{eq:weighted_crs}
  \end{equation}
  Here $A = \dstl \int_{\pi/4}^{3\pi/4}d\theta\cdot a = - \frac{\dstl \alpha_{em}^{3}}{\dstl 4\pi s^{2}} \dfrac{1}{-t}\dfrac{M}{Q^{\prime}}
@@ -75,8 +75,8 @@ $\dfrac{dS}{dQ^{\prime 2} dt d\phi}$, which is obtained from the differential cr
     f = P\cdot cos(\phi)
  \end{equation}
 
- As an example the plot in Fig.\ref{fig:cos_phi_fit_illustration} is an illustration of a similar fit. Points in the plot
- are not real data points, but they were generated using a Gaussian function with the mean equal to the weighted cross section in a given kinematic bin ($t$, $Q^{\prime 2}$, $\phi$), and sigma equal to the statistical uncertainty (estimated using CLAS12 FASTMC) of the cross section in the given bin.
+ As an example the plot in Fig.\ref{fig:cos_phi_fit_illustration} is an illustration of the extraction of $P$. Points in the plot
+ are generated using a Gaussian function with the mean equal to interference part of the weighted cross section in a given kinematic bin ($t$, $Q^{\prime 2}$, $\phi$), and sigma equal to the expected statistical uncertainty (estimated using CLAS12 FASTMC) of the cross section in the given bin for running 120 days $@ 10^{35}cm^{-2}s^{-1}$.
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!htb]
  \centering
@@ -93,9 +93,9 @@ $\dfrac{dS}{dQ^{\prime 2} dt d\phi}$, which is obtained from the differential cr
 
  
  \section{The Effect of the CLAS(12) acceptance and the extrapolation}
- It is important to mention that in the above described method method, integration limits over $\theta$, should not be changed for different $\phi$ bins. Varying integration limits, the $\phi$ dependence of the weighted cross section will not have a cosine shape anymore.
+ It is important to mention that in the above described method, integration limits over $\theta$ should not be changed for different $\phi$ bins. Varying integration limits, the $\phi$ dependence of the weighted cross section will not have a cosine shape anymore.
  
- The CLAS and CLAS12 detector acceptances have strong $\theta$ and $\phi$ dependence.
+ The CLAS and CLAS12 detector acceptances have strong $\theta$ and $\phi$ dependence,
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!htb]
  \centering
@@ -105,7 +105,7 @@ $\dfrac{dS}{dQ^{\prime 2} dt d\phi}$, which is obtained from the differential cr
  \label{fig:CLAS12_th_phi_acc}
 \end{figure}
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- As an example in Fig.\ref{fig:CLAS12_th_phi_acc} shown CLAS12 acceptance obtained in different $t$ bins. One can see that the CLAS12 acceptance doesn't cover the full $\theta$ range, and moreover, the $\theta$ range varies a lot as a function of the angle $\phi$. This means that if in the data we integrate over $\theta$ in the available $\theta$ range, then the resulting distribution will not have a cosine dependence on the angle $\phi$. 
+ as it is shown in Fig.\ref{fig:CLAS12_th_phi_acc} for CLAS12 acceptance obtained in different $t$ bins. One can see that the CLAS12 acceptance doesn't cover the full $\theta$ range, and moreover, the $\theta$ range varies a lot as a function of the angle $\phi$. This means that if in the data we integrate over $\theta$ in the available $\theta$ range, then the resulting $\phi$ dependence will be destroyed. 
  
  Now let's look into the equation (\ref{eq:weighted_crs}). It shows that the WCRS of
  interference term has as $1 + cos^{2}(\theta)$ dependence on the angle $\theta$ for any angle $\phi$, and if one measures the interference term WCRS in a given range $\theta \in (a,b)$, $^{b}_{a}S_{Int}$, then one can uniquely calculate the interference term WCRS in any $\theta\in(A, B)$ range. 
@@ -121,7 +121,7 @@ The interference term WCRS can be calculated by subtracting the BH WCRS from the
  \label{eq:Int_eq_Tot_minus_BH}
 \end{equation}
 In short: the $^{b}_{a}S_{Tot}$ will be measured from the experiment, the $^{b}_{a}S_{BH}$ 
-will be calculated by integrating the analytic form the BH cross section over the $\theta\in(a-b)$, and therefore the interference term WCRS will be measured using the eq. (\ref{eq:Int_eq_Tot_minus_BH}).
+will be calculated by integrating the analytic form the BH cross section over the $\theta\in(a,b)$, and therefore the interference term WCRS will be measured using the eq. (\ref{eq:Int_eq_Tot_minus_BH}).
 \begin{figure}[!htb]
  \centering
  \grinp[width=0.75\tw]{img/Int_Term_Th_dependence.png}
@@ -133,19 +133,46 @@ Then using equations (\ref{eq:Int_eq_Tot_minus_BH}) and (\ref{eq:extrapolation})
  As an illustration, in Fig.\ref{fig:int_th_dep} shown the function $(1 + cos^{2}(\theta))$.
  Knowing only the integral of 'blue' shaded area, the integral of the 'Orange' area can be determined using the equation (\ref{eq:extrapolation}). In our case the blue shaded area will correspond the CLAS(12) acceptance, and the orange shaded area will correspond to the $\pi/4$ to $3\pi/4$ range.
  
-\section{Estimation of statistical uncertainties}
-The statistical uncertainty on the $ReM^{--}$ can be obtained in a following way.
-Let's assume the final distribution of the interference term WCRS is the one depicted on Fig.\ref{fig:cos_phi_fit_illustration}. Using this distribution as a source, we will generate a big number (e.g. 10000 or more) of similar distributions, in a way that a WCRS in a given $\phi$ bin will be a Gaussian random number with a Mean equal to the WCRS and sigma equal to the statistical error of corresponding bin of the source distribution. Then each of generated distribution will be fitted with a cosine function in a same way as the source distribution, and each fit will yield a certain $ReM^{--}$. The distribution of $ReM^{--}$ is expected to be a Gaussian with a mean equal to the value of $ReM^{--}$ obtained from the source distribution, and the $\sigma$ of it will show the statistical uncertainties of the measured $ReM^{--}$.
-As an example the distribution in Fig.\ref{fig:cos_phi_fit_illustration} is actually one of such generated distributions, and when we generated 10000 of such distributions, and fit with a $P\cdot cos(\phi)$ function, the resulting distribution of the $P$ is shown in
+ In order to demonstrate steps towards the extraction of the $ReM^{--}$, let's assume assume that we have divided the $(0, 2\pi)$ region into 10 bins in $\phi$, and for each of $\phi$ bin we have measured the WCRS
+ \begin{equation}
+  \frac{dS}{dQ^{\prime 2} dt d\phi} = \frac{\dstl \sum_{i = 1}^{N_{bin}} \frac{L_{i}}{L_{0\;i}}}{{\cal{L}}\cdot Acc \cdot \Delta Q^{\prime 2} \Delta t \Delta \phi}
+  \frac{\displaystyle \int_{A}^{B}(1 + cos^{2}(\theta))d\theta}{\displaystyle  \int_{a}^{b}(1 + cos^{2}(\theta))d\theta}
+  \label{eq:Data_Extrapolation_Formula}
+ \end{equation}
+where $N_{bin}$ is the number of events in the given bin, $\dfrac{L_{i}}{L_{0\;i}}$ is the weighting factor for a given event, $\cal{L}$ is the luminosity, $Acc$ is the acceptance in the given $(Q^{\prime 2},\; t,\; \phi)$ bin, $\Delta Q^{\prime 2}$, $\Delta t$ and $\Delta \phi$ are correspondingly widths of $ Q^{\prime 2}$, $t$ and $\phi$ in the given bin, $a$ and $b$ are CLAS(12) acceptance limits on $\theta$ for the current kinematic bin, $A$ and $B$ are limits of the extrapolated $\theta$ range which is the same for all $\phi$ bins of the given kinematic bin $(Q^{\prime 2}, \tau, t)$.
+ For simplicity, let's assume number of events in each $\phi$ bin is 100. This assumption will not change conclusions but will simplify codes which generates following plots, and at the end kinematic bins will be chosen such, that $N_{bin}$ to not be much different from 100.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!htb]
  \centering
- \grinp[width=0.75\tw]{img/Stat_Error_of_Fit.pdf}
+ \subfloat[]{\label{fig:crs_sections_plot}\grinp[width=0.45\tw]{img/crs_phi_th_integrated_smeared_Tot.pdf}}
+ \subfloat[]{\label{fig:crs_sections_plot2}\grinp[width=0.45\tw]{img/Data_Int_crs_smeared.png}}
+ \caption{Left: Blue dashed line represent the sum WCRS (BH + Interference) for a kinematic point quoted in the picture, Red solid line represent the BH WCRS, and points with error bars are the generated from the sum WCRS assuming to the 10\% statistical uncertainties.
+ Right: points with error bars are obtained from points in the left plot by subtracting the BH WCRS (red cure in the left plot), the red curve is the fit of points with $P\cdot cos(\phi)$ function.}
+ \label{fig:crs_plots}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In the Fig.\ref{fig:crs_sections_plot} dashed blue line represent the sum WCRS (BH + Interference) for a kinematic point quoted in the picture, Red solid line represent the BH WCRS, and points with error bars represent WCRS that will be calculated with the eq. (\ref{eq:Data_Extrapolation_Formula}). In this plot these points were generated with a Gaussian mean equal to the WCRS in the middle of $\phi$ bin (value of blue dashed curve), and sigma equal to the statistical uncertainty (in this particular case it is $10\%$).
+
+In the 2nd step the we should subtract BH WCRS from the measured WCRS. The subtracted WCRS is shown in Fig.\ref{fig:crs_sections_plot2}. This distribution is fitted with a $P\cdot cos(\phi)$ function (the red curve). As $P$ will be obtained from the fit, the $ReM^{--}$ can be calculated directly using the eq. (\ref{eq:Re_M--}).
+ 
+\section{Estimation of statistical uncertainties}
+The statistical uncertainty on the $ReM^{--}$ can be obtained in a following way.
+Let's assume the final distribution of the interference term WCRS is the one depicted on Fig.\ref{fig:crs_sections_plot2}. Using this distribution as a source, we will generate a big number (e.g. 10000 or more) of similar distributions, in a way that a WCRS in a given $\phi$ bin will be a Gaussian random number with a mean equal to the WCRS and sigma equal to the statistical error of corresponding bin of the source distribution. Then each of generated distribution will be fitted with a cosine function in a same way as the source distribution, and each fit will yield a certain $P$. The distribution of $P$ is expected to be a Gaussian with a mean equal to the value of $P$ obtained from the source distribution, and the $\sigma$ of it will show the statistical uncertainties of the measured $P$.
+After 10000 such fits, the resulting distribution of the $P$ is shown in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htb]
+ \centering
+ \grinp[width=0.75\tw]{img/Fit_of_P.png}
  \caption{distribution of fit parameter $P$ obtained from 10000 generated distributions.}
  \label{fig:Stat_Error_of_P}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Fig.\ref{fig:Stat_Error_of_P}. The width of this distribution will represented the statistical uncertainty of $P$ which is related to $ReM^{--}$ by eq(\ref{eq:Re_M--}).
+Fig.\ref{fig:Stat_Error_of_P}. 
+The dashed blue vertical line shows the value of $P$ obtained from the fit of the source distribution, in Fig.\ref{fig:crs_sections_plot2}. 
+The width of this distribution will represented the statistical uncertainty of $P$ which is related to $ReM^{--}$ by eq(\ref{eq:Re_M--}).
+As one can see the Gaussian distribution is well centered on the value of $P$ from the source distribution fit. The  black vertical line is the theoretical value of $P$ for the given kinematic point. and as one can see the extracted value of $P$ is consistent with the theoretical value of $P$ within the statistical uncertainty.
+
 
  
  \section{selection of kinematic points}
@@ -159,7 +186,7 @@ In this section we will discuss selection of TCS kinematic points, and compare T
  \label{fig:kine1}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In TCS, the corresponding variables of $Q^{2} \equiv (p_{e}-p_{e}^{\prime 2})$ ans $x_{B} \equiv Q^{2}/2pq$, are $Q^{\prime 2} = M_{e^{-}e^{+}}^{2}$ and $\tau = Q^{\prime 2}/2pq$.
+In TCS, the corresponding variables of $Q^{2} \equiv (p_{e}-p_{e}^{\prime 2})$ ans $x_{B} \equiv Q^{2}/2pq$, are $Q^{\prime 2} = M_{e^{-}e^{+}}^{2}$ and $\tau = Q^{\prime 2}/2pq = \dfrac{Q^{2}}{s - M^{2}}$, where $M$ is the mass of the nucleon.
 In Fig.\ref{fig:kine1} shown the $Q^{2}$ vs $x_{B}$ distribution for the approved Hall-C kinematics (blue, green, and red areas), and TCS kinematics with CLAS12 acceptance (pink area). 
 
 In that plot the black solid line corresponds to the maximum achievable $Q^{2}$ for a given
