@@ -93,7 +93,8 @@ $\dfrac{dS}{dQ^{\prime 2} dt d\phi}$, which is obtained from the differential cr
 
  
  \section{The Effect of the CLAS(12) acceptance and the extrapolation}
- It is important to mention that in the above described method, integration limits over $\theta$ should not be changed for different $\phi$ bins. Varying integration limits, the $\phi$ dependence of the weighted cross section will not have a cosine shape anymore.
+ It is important to mention that in the above described method, integration limits over $\theta$ should not be changed for different $\phi$ bins. Varying integration limits,
+ the $\phi$ dependence of the weighted cross section will not be directly related to $M^{--}$.
  
  The CLAS and CLAS12 detector acceptances have strong $\theta$ and $\phi$ dependence,
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -105,7 +106,7 @@ $\dfrac{dS}{dQ^{\prime 2} dt d\phi}$, which is obtained from the differential cr
  \label{fig:CLAS12_th_phi_acc}
 \end{figure}
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- as it is shown in Fig.\ref{fig:CLAS12_th_phi_acc} for CLAS12 acceptance obtained in different $t$ bins. One can see that the CLAS12 acceptance doesn't cover the full $\theta$ range, and moreover, the $\theta$ range varies a lot as a function of the angle $\phi$. This means that if in the data we integrate over $\theta$ in the available $\theta$ range, then the resulting $\phi$ dependence will be destroyed. 
+ as it is shown in Fig.\ref{fig:CLAS12_th_phi_acc} for CLAS12 acceptance obtained in different $t$ bins. One can see that the CLAS12 acceptance doesn't cover the full $\theta$ range, and moreover, the $\theta$ range varies a lot as a function of the angle $\phi$. This means that if in the data we integrate over $\theta$ in the available $\theta$ range, then the resulting $\phi$ dependence will be distorted. 
  
  Now let's look into the equation (\ref{eq:weighted_crs}). It shows that the WCRS of
  interference term has as $1 + cos^{2}(\theta)$ dependence on the angle $\theta$ for any angle $\phi$, and if one measures the interference term WCRS in a given range $\theta \in (a,b)$, $^{b}_{a}S_{Int}$, then one can uniquely calculate the interference term WCRS in any $\theta\in(A, B)$ range. 
@@ -121,7 +122,8 @@ The interference term WCRS can be calculated by subtracting the BH WCRS from the
  \label{eq:Int_eq_Tot_minus_BH}
 \end{equation}
 In short: the $^{b}_{a}S_{Tot}$ will be measured from the experiment, the $^{b}_{a}S_{BH}$ 
-will be calculated by integrating the analytic form the BH cross section over the $\theta\in(a,b)$, and therefore the interference term WCRS will be measured using the eq. (\ref{eq:Int_eq_Tot_minus_BH}).
+will be calculated by integrating the analytic form of the BH cross section over the $\theta\in(a,b)$, and therefore the interference term WCRS will be measured using the eq. (\ref{eq:Int_eq_Tot_minus_BH}).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!htb]
  \centering
  \grinp[width=0.75\tw]{img/Int_Term_Th_dependence.png}
@@ -129,17 +131,17 @@ will be calculated by integrating the analytic form the BH cross section over th
  \label{fig:int_th_dep}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Then using equations (\ref{eq:Int_eq_Tot_minus_BH}) and (\ref{eq:extrapolation}), the interference term WCRS will be calculated for any $\theta\in(a-b)$ range for any given $\phi$ bin.
+Then using equations (\ref{eq:Int_eq_Tot_minus_BH}) and (\ref{eq:extrapolation}), the interference term WCRS will be calculated for any $\theta\in(A, B)$ range for any given $\phi$ bin.
  As an illustration, in Fig.\ref{fig:int_th_dep} shown the function $(1 + cos^{2}(\theta))$.
  Knowing only the integral of 'blue' shaded area, the integral of the 'Orange' area can be determined using the equation (\ref{eq:extrapolation}). In our case the blue shaded area will correspond the CLAS(12) acceptance, and the orange shaded area will correspond to the $\pi/4$ to $3\pi/4$ range.
  
- In order to demonstrate steps towards the extraction of the $ReM^{--}$, let's assume assume that we have divided the $(0, 2\pi)$ region into 10 bins in $\phi$, and for each of $\phi$ bin we have measured the WCRS
+ In order to demonstrate steps towards the extraction of the $ReM^{--}$, let's assume that we have divided the $(0, 2\pi)$ region into 10 bins in $\phi$, and for each $\phi$ bin we have measured the WCRS
  \begin{equation}
-  \frac{dS}{dQ^{\prime 2} dt d\phi} = \frac{\dstl \sum_{i = 1}^{N_{bin}} \frac{L_{i}}{L_{0\;i}}}{{\cal{L}}\cdot Acc \cdot \Delta Q^{\prime 2} \Delta t \Delta \phi}
+  \frac{dS}{dQ^{\prime 2} dt d\phi} = \frac{\dstl \sum_{i = 1}^{N_{ev}} \frac{L_{i}}{L_{0\;i}}}{{\cal{L}}\cdot Acc \cdot \Delta Q^{\prime 2} \Delta t \Delta \phi}
   \frac{\displaystyle \int_{A}^{B}(1 + cos^{2}(\theta))d\theta}{\displaystyle  \int_{a}^{b}(1 + cos^{2}(\theta))d\theta}
   \label{eq:Data_Extrapolation_Formula}
  \end{equation}
-where $N_{bin}$ is the number of events in the given bin, $\dfrac{L_{i}}{L_{0\;i}}$ is the weighting factor for a given event, $\cal{L}$ is the luminosity, $Acc$ is the acceptance in the given $(Q^{\prime 2},\; t,\; \phi)$ bin, $\Delta Q^{\prime 2}$, $\Delta t$ and $\Delta \phi$ are correspondingly widths of $ Q^{\prime 2}$, $t$ and $\phi$ in the given bin, $a$ and $b$ are CLAS(12) acceptance limits on $\theta$ for the current kinematic bin, $A$ and $B$ are limits of the extrapolated $\theta$ range which is the same for all $\phi$ bins of the given kinematic bin $(Q^{\prime 2}, \tau, t)$.
+where $N_{ev}$ is the number of events in the given bin, $\dfrac{L_{i}}{L_{0\;i}}$ is the weighting factor for a given event, $\cal{L}$ is the luminosity, $Acc$ is the acceptance in the given $(Q^{\prime 2},\; t,\; \phi)$ bin, $\Delta Q^{\prime 2}$, $\Delta t$ and $\Delta \phi$ are correspondingly widths of $ Q^{\prime 2}$, $t$ and $\phi$ in the given bin, $a$ and $b$ are CLAS(12) acceptance limits on $\theta$ for the current kinematic bin, $A$ and $B$ are limits of the extrapolated $\theta$ range which is the same for all $\phi$ bins of the given kinematic bin $(Q^{\prime 2}, \tau, t)$.
  For simplicity, let's assume number of events in each $\phi$ bin is 100. This assumption will not change conclusions but will simplify codes which generates following plots, and at the end kinematic bins will be chosen such, that $N_{bin}$ to not be much different from 100.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!htb]
@@ -154,7 +156,7 @@ where $N_{bin}$ is the number of events in the given bin, $\dfrac{L_{i}}{L_{0\;i
 
 In the Fig.\ref{fig:crs_sections_plot} dashed blue line represent the sum WCRS (BH + Interference) for a kinematic point quoted in the picture, Red solid line represent the BH WCRS, and points with error bars represent WCRS that will be calculated with the eq. (\ref{eq:Data_Extrapolation_Formula}). In this plot these points were generated with a Gaussian mean equal to the WCRS in the middle of $\phi$ bin (value of blue dashed curve), and sigma equal to the statistical uncertainty (in this particular case it is $10\%$).
 
-In the 2nd step the we should subtract BH WCRS from the measured WCRS. The subtracted WCRS is shown in Fig.\ref{fig:crs_sections_plot2}. This distribution is fitted with a $P\cdot cos(\phi)$ function (the red curve). As $P$ will be obtained from the fit, the $ReM^{--}$ can be calculated directly using the eq. (\ref{eq:Re_M--}).
+In the 2nd step we should subtract BH WCRS from the measured WCRS. The subtracted WCRS is shown in Fig.\ref{fig:crs_sections_plot2}. This distribution is fitted with a $P\cdot cos(\phi)$ function (the red curve). As $P$ will be obtained from the fit, the $ReM^{--}$ can be calculated directly using the eq. (\ref{eq:Re_M--}).
  
 \section{Estimation of statistical uncertainties}
 The statistical uncertainty on the $ReM^{--}$ can be obtained in a following way.
