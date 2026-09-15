@@ -229,6 +229,23 @@ Y-projection gets `HCuts` drawn as *vertical* lines, since that projection's X a
 if `AnaPiPiProt.cc`'s histogram definitions or cut constants change without a matching update
 here** — worth checking both files together.
 
+The `h_Minv_pippim`/`h_Minv_pippim_Mx2Cut` pages additionally overlay `h_MC_Minv_pippim_All`
+(unit-max normalized like the other two, so all three reach the same peak height) as a pink
+"MC truth" reference curve — the *same* histogram on both pages, not switched to
+`h_MC_Minv_pippim_Mx2Cut` for the second one. Use `kPink+1` for this, not ROOT's base `kPink`
+(900): base `kPink` is RGB(255,0,51), visually indistinguishable from `kRed`, which is what
+this looked like before it was caught and fixed. Since real data leaves
+`h_MC_Minv_pippim_All`/`_Mx2Cut` empty (see `AnaPiPiProt.cc` above), the MC-truth source for
+this overlay — and for the acceptance page below — is resolved at runtime from whichever of
+file1/file2 actually has non-zero entries in `h_MC_Minv_pippim_All` (preferring file2, the
+conventional "MC" slot), so the tool works regardless of which argument position is the MC
+file; if neither has entries, both the overlay and the acceptance page are skipped with a
+warning rather than plotting an empty/divide-by-zero curve.
+
+A final page appends the acceptance plot: `h_MC_Minv_pippim_Mx2Cut / h_MC_Minv_pippim_All`
+(MC truth, using the *original* non-scaled histograms, not the unit-max-normalized overlay
+clones), from the same resolved MC-truth source.
+
 Usage: `CompareHists.exe <file1.root> <file2.root> <keyword1> <keyword2>` → writes
 `./Figs/RhoTail_Comparisons_<keyword1>_<keyword2>.pdf`.
 
