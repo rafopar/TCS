@@ -65,6 +65,25 @@ namespace {
         h->SetMarkerColor(kBlue);
     }
 
+    // Unit-max-normalized pink clone of an MC-truth histogram, overlaid as a
+    // reference shape on top of a data/reco comparison (see kMCTruthOverlays).
+    // Returns nullptr (nothing to draw) if src is nullptr.
+    TH1* MakeTruthOverlay(TH1* src, const string& cloneName) {
+        if (src == nullptr) {
+            return nullptr;
+        }
+        // ROOT's base kPink (900) is RGB(255,0,51) -- visually indistinguishable
+        // from kRed. kPink+1 (901, RGB 255,153,204) is an actual light pink.
+        const int kActualPink = kPink + 1;
+        TH1* c = (TH1*) src->Clone(cloneName.c_str());
+        c->SetDirectory(nullptr);
+        NormalizeToUnitMax(c);
+        c->SetLineColor(kActualPink);
+        c->SetLineWidth(2);
+        c->SetMarkerColor(kActualPink);
+        return c;
+    }
+
     // Histogram titles, as "Title;XAxisTitle;YAxisTitle" (ROOT's TH1::SetTitle
     // parses this the same way the constructor does). Keyed by name against
     // what RhoTail/AnaPiPiProt.cc fills each histogram with.
@@ -129,6 +148,13 @@ namespace {
     };
 
     const vector<double> kNoCuts;
+
+    // Reconstructed-level M(pi+pi-) histograms that also get an MC-truth
+    // (h_MC_Minv_pippim_All) reference curve overlaid in pink, unit-max
+    // normalized like the other two -- see MakeTruthOverlay.
+    bool WantsTruthOverlay(const string& name) {
+        return name == "h_Minv_pippim" || name == "h_Minv_pippim_Mx2Cut";
+    }
 
     string TitleFor(const string& name) {
         auto it = HistTitles.find(name);
@@ -225,23 +251,32 @@ namespace {
     }
 
     // Draws h1 and h2 (already styled/normalized) on the current pad,
-    // overlaid, with a legend labeling them by keyword.
+    // overlaid, with a legend labeling them by keyword. h3 (if non-null) is
+    // an extra reference curve -- e.g. the MC-truth overlay -- drawn on top
+    // and added to the legend as keyword3.
     void DrawOverlay(TH1* h1, TH1* h2, const string& keyword1, const string& keyword2,
-            const string& title, const vector<double>& cutLines = {}) {
+            const string& title, const vector<double>& cutLines = {},
+            TH1* h3 = nullptr, const string& keyword3 = "") {
         const double ymax = 1.15 * max(h1->GetMaximum(), h2->GetMaximum());
         h1->SetTitle(title.c_str());
         h1->SetMinimum(0.);
         h1->SetMaximum(ymax > 0. ? ymax : 1.);
         h1->Draw("HIST");
         h2->Draw("HIST SAME");
+        if (h3 != nullptr) {
+            h3->Draw("HIST SAME");
+        }
 
         DrawVerticalCuts(h1, cutLines);
 
-        TLegend* leg = new TLegend(0.65, 0.78, 0.89, 0.89);
+        TLegend* leg = new TLegend(0.65, (h3 != nullptr) ? 0.72 : 0.78, 0.89, 0.89);
         leg->SetBorderSize(0);
         leg->SetFillStyle(0);
         leg->AddEntry(h1, keyword1.c_str(), "l");
         leg->AddEntry(h2, keyword2.c_str(), "l");
+        if (h3 != nullptr) {
+            leg->AddEntry(h3, keyword3.c_str(), "l");
+        }
         leg->Draw();
     }
 }
@@ -273,6 +308,32 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    // MC-truth source for the truth overlay curve and the acceptance plot:
+    // h_MC_Minv_pippim_All/_Mx2Cut only have entries in an MC file (real data
+    // leaves them empty but still writes the keys -- see AnaPiPiProt.cc), so
+    // pick whichever of file1/file2 actually has entries, preferring file2
+    // (the conventional "MC" slot when comparing data vs. MC). Left null (no
+    // truth overlay, no acceptance page) if neither file has entries.
+    TH1* hMCAllSrc = nullptr;
+    TH1* hMCMx2CutSrc = nullptr;
+    {
+        TH1* all2 = dynamic_cast<TH1*> (f2->Get("h_MC_Minv_pippim_All"));
+        TH1* cut2 = dynamic_cast<TH1*> (f2->Get("h_MC_Minv_pippim_Mx2Cut"));
+        TH1* all1 = dynamic_cast<TH1*> (f1->Get("h_MC_Minv_pippim_All"));
+        TH1* cut1 = dynamic_cast<TH1*> (f1->Get("h_MC_Minv_pippim_Mx2Cut"));
+        if (all2 != nullptr && cut2 != nullptr && all2->GetEntries() > 0) {
+            hMCAllSrc = all2;
+            hMCMx2CutSrc = cut2;
+        } else if (all1 != nullptr && cut1 != nullptr && all1->GetEntries() > 0) {
+            hMCAllSrc = all1;
+            hMCMx2CutSrc = cut1;
+        } else {
+            cerr << "Warning: no non-empty h_MC_Minv_pippim_All found in either file "
+                    << "-- skipping MC-truth overlays and the acceptance plot." << endl;
+        }
+    }
+    const bool hasAcceptance = (hMCAllSrc != nullptr && hMCMx2CutSrc != nullptr);
+
     // Match by name against file1's histogram list; warn about anything in
     // file1 that has no counterpart in file2.
     const vector<string> names1 = HistNames(f1);
@@ -300,7 +361,9 @@ int main(int argc, char** argv) {
 
     for (size_t i = 0; i < commonNames.size(); ++i) {
         const string& name = commonNames[i];
-        const string pageOpt = (i == 0) ? "(" : (i == commonNames.size() - 1) ? ")" : "";
+        // If an acceptance page follows, it (not this loop) closes the pdf.
+        const bool isLastPage = !hasAcceptance && (i == commonNames.size() - 1);
+        const string pageOpt = (i == 0) ? "(" : (isLastPage ? ")" : "");
 
         TH1* h1 = dynamic_cast<TH1*> (f1->Get(name.c_str()));
         TH1* h2 = dynamic_cast<TH1*> (f2->Get(name.c_str()));
@@ -319,13 +382,19 @@ int main(int argc, char** argv) {
             StyleAsFile1(c1);
             StyleAsFile2(c2);
 
+            TH1* c3 = WantsTruthOverlay(name)
+                    ? MakeTruthOverlay(hMCAllSrc, name + "_mcTruth")
+                    : nullptr;
+
             c1D.cd();
             c1D.Clear();
-            DrawOverlay(c1, c2, keyword1, keyword2, TitleFor(name), VCutsFor(name));
+            DrawOverlay(c1, c2, keyword1, keyword2, TitleFor(name), VCutsFor(name),
+                    c3, "MC truth");
             c1D.Print(outPdf + pageOpt, "pdf");
 
             delete c1;
             delete c2;
+            delete c3;
         } else {
             // ---- 2D: raw histograms on the left, normalized projections on the right ----
             TH2* h1_2d = (TH2*) h1->Clone((name + "_2d1").c_str());
@@ -398,8 +467,31 @@ int main(int argc, char** argv) {
         }
     }
 
-    cout << "Wrote " << commonNames.size() << " comparison page(s) to "
-            << outPdf << endl;
+    // Acceptance = h_MC_Minv_pippim_Mx2Cut / h_MC_Minv_pippim_All, from the
+    // same (single) MC-truth source resolved above -- using the original,
+    // non-scaled histograms, not the unit-max-normalized truth-overlay clones.
+    if (hasAcceptance) {
+        TH1* hAcc = (TH1*) hMCMx2CutSrc->Clone("h_MC_Acceptance");
+        hAcc->SetDirectory(nullptr);
+        hAcc->Divide(hMCAllSrc);
+        hAcc->SetLineColor(kBlack);
+        hAcc->SetLineWidth(2);
+        hAcc->SetMarkerColor(kBlack);
+        hAcc->SetTitle("Acceptance (MC truth: M_{x}^{2}-cut / all);"
+                "M(#pi^{+}#pi^{-}) (GeV);Acceptance");
+        hAcc->SetMinimum(0.);
+        hAcc->SetMaximum(1.15 * max(hAcc->GetMaximum(), 1e-6));
+
+        c1D.cd();
+        c1D.Clear();
+        hAcc->Draw("HIST");
+        c1D.Print(outPdf + ")", "pdf");
+
+        delete hAcc;
+    }
+
+    cout << "Wrote " << (commonNames.size() + (hasAcceptance ? 1 : 0))
+            << " comparison page(s) to " << outPdf << endl;
 
     f1->Close();
     f2->Close();
